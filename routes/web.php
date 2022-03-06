@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes  ---> handle requests from http
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -41,3 +42,29 @@ Route::get("/students", function(){
 //    return view ("aboutus");
 //});
 Route::view("/aboutus", "aboutus");
+##################### create page ---> when call it---> print my name
+
+Route::get("/hello",[BlogController::class,"users"]);
+
+############# project oriented ###########
+###### CRUD ---> POSTS --->
+
+# list all posts
+Route::get("/posts",[PostController::class,"index"]);
+
+# create new post
+Route::get("/posts/create",[PostController::class,"create"]);
+
+# view post
+
+Route::get("/posts/{post}",[PostController::class,"show"]);
+
+# edit post
+
+#delete
+
+
+
+
+
+
