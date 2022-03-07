@@ -33,6 +33,7 @@ Route::get("/test",function (){
     return "I am Noha";
 });
 ###########################################
+# get respresent request method
 Route::get("/students", function(){
     $students = ["Ahmed","Ali","Mohamed"];
     return $students;
@@ -48,18 +49,19 @@ Route::get("/hello",[BlogController::class,"users"]);
 
 ############# project oriented ###########
 ###### CRUD ---> POSTS --->
-
+# define route names --> centralize the route
 # list all posts
-Route::get("/posts",[PostController::class,"index"]);
+Route::get("/posts",[PostController::class,"index"])->name("posts.index");
 
 # create new post
-Route::get("/posts/create",[PostController::class,"create"]);
+Route::get("/posts/create",[PostController::class,"create"])->name("posts.create");
 
 # view post
 
-Route::get("/posts/{post}",[PostController::class,"show"]);
+Route::get("/posts/{post}",[PostController::class,"show"])->name("posts.show");
 
 # edit post
+Route::get("/posts/{post}/edit",[PostController::class,"edit"])->name("posts.edit");
 
 #delete
 

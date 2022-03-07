@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    //
+
     public $posts = [["id"=>1, "title"=>"post 1","desc"=>"descrption"],
             ["id"=>2, "title"=>"post 2","desc"=>"descrption 2"],
             ["id"=>3, "title"=>"post 3","desc"=>"descrption 3"],
@@ -14,10 +14,7 @@ class PostController extends Controller
     ];
 
     function index(){
-//        return "this is index page";
-//        var_dump();
-//        exit;
-//        dd($this->posts);
+
         return view("posts.index",["posts"=>$this->posts]);
 
     }
@@ -28,6 +25,13 @@ class PostController extends Controller
     }
 
     function show($post){
-        dd($post);
+//        dd($post);
+        $data = $this->posts[$post];
+        return view("posts.show",["post"=>$data]);
+    }
+
+    function edit($post){
+        $data = $this->posts[$post];
+        return view("posts.edit",["post"=>$data]);
     }
 }
