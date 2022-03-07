@@ -17,14 +17,23 @@
             <th> Delete </th>
         </tr>
         @foreach($posts as $post)
+{{--            @dump($post)--}}
+
             <tr>
-                <td>{{$post["id"]}}</td>
-                <td>{{$post["title"]}}</td>
-                <td>{{$post["desc"]}}</td>
+                <td>{{$post->id}}</td>
+                <td>{{$post->title}}</td>
+                <td>{{$post->description}}</td>
 
                 <td><a href="{{route("posts.show",$post["id"])}}" class="btn btn-info">View </a></td>
                 <td><a href="{{route("posts.edit",$post["id"])}}" class="btn btn-warning">Edit </a></td>
-                <td><a href="#" class="btn btn-danger">Delete </a></td>
+                <td>
+                    <form action="{{route("posts.destroy",$post["id"])}}"  method="POST">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="delete"  class="btn btn-danger">
+                    </form>
+                </td>
+{{--                <td><a href="{{route("posts.destroy",$post["id"])}}" class="btn btn-danger">Delete </a></td>--}}
             </tr>
         @endforeach
 

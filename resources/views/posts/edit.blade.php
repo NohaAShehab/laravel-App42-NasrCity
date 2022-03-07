@@ -4,14 +4,16 @@
 @endsection
 
 @section("maincontent")
-    <form class="form-control" action="#" >
+    <form class="form-control" action="{{route("posts.update",$post->id)}}" method="post">
+        @csrf
+        @method("put")
         <div class="mb-3">
             <label  class="form-label">Title</label>
-            <input type="text" name="title" value="{{$post["title"]}}" class="form-control" >
+            <input type="text" name="title" value="{{$post->title}}" class="form-control" >
         </div>
         <div class="mb-3">
             <label  class="form-label">Description</label>
-            <input type="text"  value="{{$post["desc"]}}" name="description" class="form-control" >
+            <input type="text"  value="{{$post->description}}" name="description" class="form-control" >
         </div>
 
         <div class="mb-3 text-center">

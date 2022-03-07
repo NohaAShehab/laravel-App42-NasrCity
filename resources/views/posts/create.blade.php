@@ -8,7 +8,8 @@
 @endsection
 
 @section("maincontent")
-    <form class="form-control" action="#" >
+    <form class="form-control" action="{{route("posts.store")}}" method="POST" >
+        @csrf
         <div class="mb-3">
             <label  class="form-label">Title</label>
             <input type="text" name="title" class="form-control" >

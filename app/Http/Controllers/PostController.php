@@ -3,19 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
 
-    public $posts = [["id"=>1, "title"=>"post 1","desc"=>"descrption"],
-            ["id"=>2, "title"=>"post 2","desc"=>"descrption 2"],
-            ["id"=>3, "title"=>"post 3","desc"=>"descrption 3"],
-            ["id"=>4, "title"=>"post 4","desc"=>"descrption 4"]
-    ];
 
     function index(){
-
-        return view("posts.index",["posts"=>$this->posts]);
+        # get posts form database
+        $posts = Post::all();
+        return view("posts.index",["posts"=>$posts]);
 
     }
 
@@ -24,14 +21,48 @@ class PostController extends Controller
         return view("posts.create");
     }
 
+    function store(){
+        # send data to backend,
+//        @dd($_POST);
+//        $request_data = request();
+        $request_data = request()->all();
+//        dd($request_data);
+
+        #### object from posts
+        $p = new Post();
+        $p->title =$request_data["title"];
+        $p->description =$request_data["description"];
+        $p->user_id =1;
+        $p->save();
+
+//        return redirect(route("posts.index"));
+        # form laravel 9
+        return to_route("posts.index");
+    }
+
     function show($post){
 //        dd($post);
-        $data = $this->posts[$post];
+        $data = Post::find($post);
         return view("posts.show",["post"=>$data]);
     }
 
     function edit($post){
-        $data = $this->posts[$post];
+        $data = Post::find($post);
         return view("posts.edit",["post"=>$data]);
+    }
+
+    function update($post){
+//        @dump($post);
+        $updatedpost = Post::find($post);
+        $updatedpost->title =request("title");
+        $updatedpost->description =request("description");
+        $updatedpost->save();
+        return to_route("posts.index");
+    }
+
+    function destroy($post){
+//        @dd($post);
+        Post::find($post)->delete();
+        return to_route("posts.index");
     }
 }
