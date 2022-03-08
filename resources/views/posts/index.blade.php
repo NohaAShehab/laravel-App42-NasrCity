@@ -1,4 +1,4 @@
-@extends("layouts/bloglayout")
+@extends("layouts/app")
 @section("pagetitle")
     Posts index
 @endsection

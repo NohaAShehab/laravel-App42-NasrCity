@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    # represent posts table
     use HasFactory;
     protected $fillable = ["title","description","user_id"];
+//    private $table = "myposts";
 
 //    protected $guarded = ["info","injection", "_token"];
 

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; # built-in Request class
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -16,7 +17,7 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = Post::paginate(5);  # collection object
+        $posts = Post::paginate(20);  # collection object
         return view("posts.index",["posts"=>$posts]);
     }
 
@@ -38,17 +39,17 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         //
-//        dd($request);
-        $request->validate([
-            "title"=>"required|min:5",
-            "description"=>"required"
-        ],[
-            "title.required"=>"No post without title",
-        ]);
-        dump($request->all());
+////        dd($request);
+//        $request->validate([
+//            "title"=>"required|min:5",
+//            "description"=>"required"
+//        ],[
+//            "title.required"=>"No post without title",
+//        ]);
+//        dump($request->all());
         ### use request to save data to the table
         ### use mass assignment while creating new object
 //        Post::create([
@@ -94,14 +95,14 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $request->validate([
-            "title"=>"required|min:5",
-            "description"=>"required"
-        ],[
-            "title.required"=>"No post without title",
-        ]);
+//        $request->validate([
+//            "title"=>"required|min:5",
+//            "description"=>"required"
+//        ],[
+//            "title.required"=>"No post without title",
+//        ]);
 
         $post->update($request->all());
         # to_route ---> route_name
