@@ -9,6 +9,12 @@ use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware("auth")->only("index","store","update","destory");
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,6 +47,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+        @dd($request);
         //
 ////        dd($request);
 //        $request->validate([

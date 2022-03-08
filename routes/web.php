@@ -88,11 +88,16 @@ Route::get("/hello",[BlogController::class,"users"]);
 //}
 
 ###################################################
-
+### only authenticated users can store , update, delete posts
 
 Route::resource("posts",PostController::class);
 
 
 
 
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
