@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\OldPostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,38 +55,42 @@ Route::get("/hello",[BlogController::class,"users"]);
 ###### CRUD ---> POSTS --->
 # define route names --> centralize the route
 # list all posts
-Route::get("/posts",[PostController::class,"index"])->name("posts.index");
+//
+//Route::get("/posts",[OldPostController::class,"index"])->name("posts.index");
+//
+//# create new post
+//Route::get("/posts/create",[OldPostController::class,"create"])->name("posts.create");
+//
+//Route::post("/posts",[OldPostController::class,"store"])->name("posts.store");
+//
+//# view post
+//
+//Route::get("/posts/{post}",[OldPostController::class,"show"])->name("posts.show");
+//
+//# edit post
+//Route::get("/posts/{post}/edit",[OldPostController::class,"edit"])->name("posts.edit");
+//
+//
+//### update
+//Route::put("/post/{post}",[OldPostController::class,"update"])->name("posts.update");
+//#delete
+//
+//Route::delete("/post/{post}",[OldPostController::class,"destroy"])->name("posts.destroy");
+//###############################################################
+//# get all posts related to user
+//
+//Route::get("/userposts/{user}", [UserController::class, "userposts"])->name("user.posts");
+//
+//Route::get("/authorposts/{user}",[AuthorController::class,"allposts"])->name("author.posts");
+//
+//Route::get("/testroute",function (){
+//   return "I am test route";
+//}
 
-# create new post
-Route::get("/posts/create",[PostController::class,"create"])->name("posts.create");
-
-Route::post("/posts",[PostController::class,"store"])->name("posts.store");
-
-# view post
-
-Route::get("/posts/{post}",[PostController::class,"show"])->name("posts.show");
-
-# edit post
-Route::get("/posts/{post}/edit",[PostController::class,"edit"])->name("posts.edit");
+###################################################
 
 
-### update
-Route::put("/post/{post}",[PostController::class,"update"])->name("posts.update");
-#delete
-
-Route::delete("/post/{post}",[PostController::class,"destroy"])->name("posts.destroy");
-###############################################################
-# get all posts related to user
-
-Route::get("/userposts/{user}", [UserController::class, "userposts"])->name("user.posts");
-
-Route::get("/authorposts/{user}",[AuthorController::class,"allposts"])->name("author.posts");
-
-Route::get("/testroute",function (){
-   return "I am test route";
-});
-
-
+Route::resource("posts",PostController::class);
 
 
 

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    protected $fillable = ["title","description","user_id"];
+
+//    protected $guarded = ["info","injection", "_token"];
+
     # define relations between model
     # put the logic
     # relation user and posts ---> one user --> can write many posts
