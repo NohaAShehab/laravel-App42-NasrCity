@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes  ---> handle requests from http
@@ -71,6 +72,11 @@ Route::put("/post/{post}",[PostController::class,"update"])->name("posts.update"
 #delete
 
 Route::delete("/post/{post}",[PostController::class,"destroy"])->name("posts.destroy");
+###############################################################
+# get all posts related to user
+
+Route::get("/userposts/{user}", [UserController::class, "userposts"])->name("user.posts");
+
 
 
 

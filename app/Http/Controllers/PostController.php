@@ -11,53 +11,55 @@ class PostController extends Controller
 
 
     function index(){
-        # get posts form database
-//        $posts = Post::all();
-        $posts = Post::paginate(5);
+        $posts = Post::paginate(5);  # collection object
         return view("posts.index",["posts"=>$posts]);
 
     }
 
     function create(){
-        ## return a form to create new post
         $users = User::all();
         return view("posts.create",["users"=>$users]);
     }
 
     function store(){
-        # send data to backend,
-//        @dd($_POST);
-//        $request_data = request();
-        $request_data = request()->all();
-//        dd($request_data);
 
-        #### object from posts
+        request()->validate([
+            "title"=>"required|min:5",
+            "description"=>"required"
+        ],[
+            "title.required"=>"No post without title",
+        ]);
+
+        $request_data = request()->all();  # array of the request data
         $p = new Post();
         $p->title =$request_data["title"];
         $p->description =$request_data["description"];
         $p->user_id =request("user_id");
         $p->save();
-
-//        return redirect(route("posts.index"));
-        # form laravel 9
         return to_route("posts.index");
     }
 
     function show($post){
-//        dd($post);
-        $data = Post::find($post);
+//        $data = Post::find($post);
+////        dump($data->user());
+////        dump($data->user);
+//        if($data){
+//            return view("posts.show",["post"=>$data]);
+//        }
+//        return abort(404);
+//
+        $data = Post::findOrFail($post);
         return view("posts.show",["post"=>$data]);
     }
 
     function edit($post){
-        $data = Post::find($post);
+        $data = Post::findOrFail($post);
         $users = User::all();
         return view("posts.edit",["post"=>$data,"users"=>$users ]);
     }
 
     function update($post){
-//        @dump($post);
-        $updatedpost = Post::find($post);
+        $updatedpost =  Post::findOrFail($post);
         $updatedpost->title =request("title");
         $updatedpost->description =request("description");
         $updatedpost->user_id= request("user_id");
@@ -66,8 +68,7 @@ class PostController extends Controller
     }
 
     function destroy($post){
-//        @dd($post);
-        Post::find($post)->delete();
+        Post::findOrFail($post)->delete();
         return to_route("posts.index");
     }
 }
