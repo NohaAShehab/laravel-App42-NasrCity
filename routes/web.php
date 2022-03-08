@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthorController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes  ---> handle requests from http
@@ -77,6 +79,11 @@ Route::delete("/post/{post}",[PostController::class,"destroy"])->name("posts.des
 
 Route::get("/userposts/{user}", [UserController::class, "userposts"])->name("user.posts");
 
+Route::get("/authorposts/{user}",[AuthorController::class,"allposts"])->name("author.posts");
+
+Route::get("/testroute",function (){
+   return "I am test route";
+});
 
 
 
