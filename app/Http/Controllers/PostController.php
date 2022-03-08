@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -11,14 +12,16 @@ class PostController extends Controller
 
     function index(){
         # get posts form database
-        $posts = Post::all();
+//        $posts = Post::all();
+        $posts = Post::paginate(5);
         return view("posts.index",["posts"=>$posts]);
 
     }
 
     function create(){
         ## return a form to create new post
-        return view("posts.create");
+        $users = User::all();
+        return view("posts.create",["users"=>$users]);
     }
 
     function store(){
@@ -32,7 +35,7 @@ class PostController extends Controller
         $p = new Post();
         $p->title =$request_data["title"];
         $p->description =$request_data["description"];
-        $p->user_id =1;
+        $p->user_id =request("user_id");
         $p->save();
 
 //        return redirect(route("posts.index"));
@@ -48,7 +51,8 @@ class PostController extends Controller
 
     function edit($post){
         $data = Post::find($post);
-        return view("posts.edit",["post"=>$data]);
+        $users = User::all();
+        return view("posts.edit",["post"=>$data,"users"=>$users ]);
     }
 
     function update($post){
@@ -56,6 +60,7 @@ class PostController extends Controller
         $updatedpost = Post::find($post);
         $updatedpost->title =request("title");
         $updatedpost->description =request("description");
+        $updatedpost->user_id= request("user_id");
         $updatedpost->save();
         return to_route("posts.index");
     }

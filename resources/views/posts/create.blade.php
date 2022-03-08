@@ -19,6 +19,14 @@
             <input type="text"  name="description" class="form-control" >
         </div>
 
+        <div class="mb-3">
+            <select class="form-select"   name="user_id" aria-label="Default select example">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="mb-3 text-center">
             <input type="submit" class="btn btn-success">
         </div>
