@@ -25,7 +25,9 @@
                 <td>{{$post->description}}</td>
 
                 <td><a href="{{route("posts.show",$post["id"])}}" class="btn btn-info">View </a></td>
-                <td><a href="{{route("posts.edit",$post["id"])}}" class="btn btn-warning">Edit </a></td>
+                @can("update",$post)
+                    <td><a href="{{route("posts.edit",$post["id"])}}" class="btn btn-warning">Edit </a></td>
+                @endcan
 
                 <td>
                     <form action="{{route("posts.destroy",$post["id"])}}"  method="POST">
