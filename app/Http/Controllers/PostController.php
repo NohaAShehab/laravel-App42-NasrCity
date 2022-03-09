@@ -16,7 +16,6 @@ class PostController extends Controller
     function __construct()
     {
         $this->middleware("itimiddleware");
-
         $this->middleware("auth")->only("index","store","update","destory");
     }
 
@@ -107,16 +106,20 @@ class PostController extends Controller
 //        if ($user->can("update_post",$post)){
 //            dd("hi");
 //        }
-        if ($user->can("isadmin")){
-            dd("I am the admin");
-        }
-
-        if(Gate::allows("update_post",$post)){
-            $post->update($request->all());
-            return to_route("posts.show",$post);
-        }
-
-        return abort(403);
+//        if ($user->can("isadmin")){
+//            dd("I am the admin");
+//        }
+//
+//        if(Gate::allows("update_post",$post)){
+//            $post->update($request->all());
+//            return to_route("posts.show",$post);
+//        }
+//
+//        return abort(403);
+        dd($this);
+        $this->authorize("update",$post);
+        $post->update($request->all());
+        return to_route("posts.show",$post);
 
 
 
