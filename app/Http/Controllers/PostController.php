@@ -15,8 +15,8 @@ class PostController extends Controller
 
     function __construct()
     {
-        $this->middleware("itimiddleware");
-        $this->middleware("auth")->only("index","store","update","destory");
+//        $this->middleware("itimiddleware");
+//        $this->middleware("auth")->only("index","store","update","destory");
     }
 
     /**
@@ -138,5 +138,9 @@ class PostController extends Controller
         //
        $post->delete();
        return to_route("posts.index");
+    }
+
+    function testobject(){
+        return Post::all();  # Collection of elequent object
     }
 }

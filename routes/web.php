@@ -6,6 +6,7 @@ use App\Http\Controllers\OldPostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\GreetingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,8 +96,10 @@ Route::get("/hello",[BlogController::class,"users"]);
 Route::resource("posts",PostController::class);
 
 
+Route::get("/invoke",GreetingController::class);  # call magic __invoke method inside
+Route::get("/test-invoke",[GreetingController::class,"testfunction"]);  # call magic __invoke method inside
 
-
+Route::get("/postsobjects",[PostController::class,"testobject"]);
 
 
 Auth::routes();
