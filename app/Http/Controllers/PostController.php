@@ -6,12 +6,17 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request; # built-in Request class
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 class PostController extends Controller
 {
 
     function __construct()
     {
+        $this->middleware("itimiddleware");
+
         $this->middleware("auth")->only("index","store","update","destory");
     }
 
@@ -23,8 +28,9 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = Post::paginate(20);  # collection object
-        return view("posts.index",["posts"=>$posts]);
+        $user = Auth::user();
+        $posts = Post::orderByDesc("id")->paginate(20);# collection object
+        return view("posts.index",["posts"=>$posts, "user"=>$user]);
     }
 
     /**
@@ -47,23 +53,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        @dd($request);
-        //
-////        dd($request);
-//        $request->validate([
-//            "title"=>"required|min:5",
-//            "description"=>"required"
-//        ],[
-//            "title.required"=>"No post without title",
-//        ]);
-//        dump($request->all());
-        ### use request to save data to the table
-        ### use mass assignment while creating new object
-//        Post::create([
-//            "title"=>$request->all()["title"],
-//            "description"=>$request->all()["description"],
-//            "user_id"=>$request->all()["user_id"]
-//        ]);
+
+
+        $request["user_id"]= Auth::user()->id;
         Post::create($request->all());
 
         return to_route("posts.index");
@@ -92,6 +84,7 @@ class PostController extends Controller
     {
         //
         $users = User::all();
+
         return view("posts.edit",["post"=>$post,"users"=>$users ]);
     }
 
@@ -104,16 +97,31 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-//        $request->validate([
-//            "title"=>"required|min:5",
-//            "description"=>"required"
-//        ],[
-//            "title.required"=>"No post without title",
-//        ]);
+        $user= Auth::user();
+//        if($post->user->id ==$user->id ){
+//            $post->update($request->all());
+//                return to_route("posts.show",$post);
+//        }
+//            return abort(403);
+//            # to_route ---> route_name
+//        if ($user->can("update_post",$post)){
+//            dd("hi");
+//        }
+        if ($user->can("isadmin")){
+            dd("I am the admin");
+        }
 
-        $post->update($request->all());
-        # to_route ---> route_name
-        return to_route("posts.show",$post);
+        if(Gate::allows("update_post",$post)){
+            $post->update($request->all());
+            return to_route("posts.show",$post);
+        }
+
+        return abort(403);
+
+
+
+
+
     }
 
     /**

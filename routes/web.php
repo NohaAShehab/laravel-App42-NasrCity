@@ -90,6 +90,8 @@ Route::get("/hello",[BlogController::class,"users"]);
 ###################################################
 ### only authenticated users can store , update, delete posts
 
+//Route::resource("posts",PostController::class)->middleware("itimiddleware");
+
 Route::resource("posts",PostController::class);
 
 

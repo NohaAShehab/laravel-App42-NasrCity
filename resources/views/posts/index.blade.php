@@ -26,6 +26,7 @@
 
                 <td><a href="{{route("posts.show",$post["id"])}}" class="btn btn-info">View </a></td>
                 <td><a href="{{route("posts.edit",$post["id"])}}" class="btn btn-warning">Edit </a></td>
+
                 <td>
                     <form action="{{route("posts.destroy",$post["id"])}}"  method="POST">
                         @csrf
