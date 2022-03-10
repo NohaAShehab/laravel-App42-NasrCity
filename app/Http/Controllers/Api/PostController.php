@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Resources\PostResource;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -16,7 +17,11 @@ class PostController extends Controller
     public function index()
     {
         //
-        return Post::all();
+        $posts= Post::all();  # collection of posts
+
+//        return $posts;
+        return PostResource::collection($posts);
+
     }
 
     /**
@@ -25,11 +30,12 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         //
         $post = Post::create($request->all());
-        return $post;
+        return new PostResource($post);
+
     }
 
     /**
@@ -38,10 +44,17 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
+
     public function show(Post $post)
     {
         //
-        return $post;
+//        return $post;
+//        return [
+//            "title"=>$post->title,
+//            "description" =>$post->description,
+//            "user_name"=>$post->user->name
+//        ];
+        return new PostResource($post);
     }
 
     /**
@@ -51,12 +64,12 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         //
         $res=$post->update($request->all());
 
-        return $post;
+        return new PostResource($post);
 
     }
 
