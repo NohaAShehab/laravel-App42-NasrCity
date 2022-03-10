@@ -15,8 +15,8 @@ class PostController extends Controller
 
     function __construct()
     {
-//        $this->middleware("itimiddleware");
-//        $this->middleware("auth")->only("index","store","update","destory");
+        $this->middleware("itimiddleware");
+        $this->middleware("auth")->only("store","update","destory");
     }
 
     /**

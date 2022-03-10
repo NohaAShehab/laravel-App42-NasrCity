@@ -19,6 +19,7 @@ class PostResource extends JsonResource
 //        dd($request);
 //        return parent::toArray($request);
         return [
+            "post_id"=>$this->id,
             "post_title"=>$this->title,
             "description"=>$this->description,
             "author_id"=>$this->user->name,

@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\OldPostApiController;
 use App\Http\Controllers\Api\PostController;
 
 //use App\Http\Controllers\PostController;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +49,28 @@ Route::apiResource("posts",PostController::class);
 
 
 
+Route::post('/sanctum/token', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+        'device_name' => 'required',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+//    return  $user;
+    if (! $user || ! Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
+    }
+
+    return $user->createToken($request->device_name)->plainTextToken;
+});
+
+
+
+Route::get("test-token",function (){
+
+    return "Authenticated user , welcome ";
+})->middleware("auth:sanctum");

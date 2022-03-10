@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -14,6 +15,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function  __construct()
+    {
+        $this->middleware("auth:sanctum")->only("store","update");
+    }
+
     public function index()
     {
         //
@@ -33,6 +40,16 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         //
+        $user= auth('sanctum')->user();
+//        return gettype($request);
+//////        dd($user);
+//        return $user;
+////        return "test";
+////        dd($request);
+////        return $request;
+////        get token,
+//        ## get user from token ---
+        $request["user_id"] = $user->id;
         $post = Post::create($request->all());
         return new PostResource($post);
 
