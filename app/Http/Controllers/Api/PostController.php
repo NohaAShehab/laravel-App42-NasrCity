@@ -84,7 +84,10 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         //
-        $res=$post->update($request->all());
+        $user = auth("sanctum")->user();
+
+        $request["user_id"]= $user->id;
+        $post->update($request->all());
 
         return new PostResource($post);
 

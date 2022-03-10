@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\GreetingController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,3 +108,38 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+########################## Github routes
+
+use Laravel\Socialite\Facades\Socialite;
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+})->name("loginwithgithub");
+
+
+Route::get('/test-call', function () {
+    $githubUser = Socialite::driver('github')->user();
+//    dd($githubUser);
+//    dd($githubUser->name, $githubUser->email, $githubUser->nickname);
+//
+    $user = User::where('email', $githubUser->email)->first();
+//    dd($user);
+    if ($user){
+        $user->update([
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+        ]);
+    }else{
+//        dd("create new user");
+        $user = User::create([
+            "name"=>$githubUser->name? $githubUser->name : $githubUser->email,
+            'email' => $githubUser->email,
+            "github_id"=> $githubUser->id,
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+        ]);
+
+    }
+    Auth::login($user);
+    return redirect('/home');
+});
