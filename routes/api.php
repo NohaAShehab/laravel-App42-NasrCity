@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PostApiController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Api\OldPostApiController;
+use App\Http\Controllers\Api\PostController;
+
+//use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,16 +23,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get("myapi",function (){
+Route::get("/myapi",function (){
 
-    return "test";
+//    return "test";
+    $data = ["id"=>1, "name"=>"Ahmed"];
+    return $data;
 });
 
-Route::get("/posts",[PostApiController::class,"index"]);
-Route::get("/posts/{post}",[PostApiController::class,"show"]);
-Route::post("/posts",[PostApiController::class,"store"]);
-Route::put("/posts/{post}",[PostApiController::class,"update"]);
-Route::delete("/posts/{post}",[PostApiController::class,"destroy"]);
+//Route::get("/posts",[OldPostApiController::class,"index"]);
+//Route::get("/posts/{post}",[OldPostApiController::class,"show"]);
+//Route::post("/posts",[OldPostApiController::class,"store"]);
+//Route::put("/posts/{post}",[OldPostApiController::class,"update"]);
+//Route::delete("/posts/{post}",[OldPostApiController::class,"destroy"]);
+
+# resource controller ---> Route resource
+
+Route::apiResource("posts",PostController::class);
 
 
 
